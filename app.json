@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/customized/index",
     "pages/index/index",
+    "pages/customized/index",
     "pages/demo/index"
   ],
   "window": {

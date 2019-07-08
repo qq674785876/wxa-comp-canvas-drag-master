@@ -1,4 +1,5 @@
 <view class='container'>
+  <view class="top-nav">我的</view>
   <view class="menu-box" style="transform: rotate({{menuDeg + 'deg'}});" catchtouchmove="buttonMove" catchtouchstart="buttonStart" catchtouchend="buttonEnd">
     <view class="menu-list" wx:for="{{menuArr}}">
       <view class="menu-list-cont">{{item.name}}</view>

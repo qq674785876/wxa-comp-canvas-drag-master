@@ -4,10 +4,96 @@ import CanvasDrag from '../../components/canvas-drag/canvas-drag';
 Page({
     data: {
         graph: {},
-        dragWidth: wx.getSystemInfoSync().windowWidth,
-        dragHeight: wx.getSystemInfoSync().windowWidth
+        demoImg: {
+          src: '/assets/images/T-shirt.jpg',
+          height: '',
+          width: ''
+        },
+        downCanvas: {
+          context: null,
+          height: wx.getSystemInfoSync().windowWidth,
+          width: wx.getSystemInfoSync().windowWidth
+        },
+        dragWidth: wx.getSystemInfoSync().windowWidth * .4,
+        dragHeight: wx.getSystemInfoSync().windowWidth * .5
     },
+    imageLoad:function(e){
+      this.setData({
+        'demoImg.height': e.detail.height,
+        'demoImg.width': e.detail.width,
+      })
+    },  
+    onShow: function(){
 
+    },
+    initDownCanvas: function(){
+      var _this = this;
+      this.setData({
+        'downCanvas.context': wx.createCanvasContext('downCanvas')
+      })
+      var context = this.data.downCanvas.context;
+      var windowWidth = wx.getSystemInfoSync().windowWidth;
+      var demoImg = this.data.demoImg;
+      context.drawImage(demoImg.src, 0, 0, windowWidth, windowWidth / demoImg.width * demoImg.height);
+    },
+    onComplete: function(){
+      var _this = this;
+      this.initDownCanvas();
+      CanvasDrag.export(1000, 1000)
+        .then((filePath) => {
+          console.log(filePath);
+          // 获取图片大小
+          wx.getImageInfo({
+            src: filePath,
+            success: data => {
+              let imgWidth = data.width;
+              let imgHeight = data.height;
+              console.log(imgWidth);
+              console.log(imgHeight);
+              var context = this.data.downCanvas.context;
+              var windowWidth = wx.getSystemInfoSync().windowWidth;
+              context.drawImage(filePath, (windowWidth - imgWidth) / 2, imgHeight * .5, imgWidth, imgHeight)
+              //绘制图片
+              context.draw();
+              _this.downImg();
+            }
+          });
+          // wx.previewImage({
+          //     urls: [filePath]
+          // })
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    downImg: function(){
+      wx.showLoading({
+        title: '图片生成中',
+      })
+      setTimeout(function(){
+        wx.canvasToTempFilePath({
+          canvasId: 'downCanvas',
+          destWidth: wx.getSystemInfoSync().windowWidth,
+          destHeight: wx.getSystemInfoSync().windowWidth,
+          success: (res) => {
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,   //这个只是测试路径，没有效果
+              success(res) {
+                wx.hideLoading();
+                console.log("success");
+              },
+              fail: function (res) {
+                wx.hideLoading();
+                console.log(res);
+              }
+            })
+          },
+          fail: (e) => {
+            reject(e);
+          },
+        }, this);
+      }, 500)
+    },
     /**
      * 添加测试图片
      */

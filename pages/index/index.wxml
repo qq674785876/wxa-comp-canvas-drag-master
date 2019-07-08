@@ -1,7 +1,18 @@
 <view class='container'>
-  <image class='img' mode='widthFix' src="{{ cropperResult }}" wx:if="{{ cropperResult }}"></image>
-  <view class='cropper' wx:if="{{originUrl}}">
-    <cropper bind:getCropperImg="getCropperImg" url="{{ originUrl }}" ratio="{{ ratio }}"></cropper> 
+  <view class="menu-box" style="transform: rotate({{menuDeg + 'deg'}});" catchtouchmove="buttonMove" catchtouchstart="buttonStart" catchtouchend="buttonEnd">
+    <view class="menu-list" wx:for="{{menuArr}}">
+      <view class="menu-list-cont">{{item.name}}</view>
+    </view>
   </view>
-  <view class='choose-img' wx:else bindtap='uploadTap'>choose Img</view>
+  <view class="module-box">
+    <view 
+      class="m-list" 
+      wx:for="{{moduleArr}}" 
+      style="background-color: {{item.bgColor}};" 
+      wx:if="{{index === activeNavIndex}}">
+      <view class="m-cont" bindtap="tapModule" data-item="{{item}}">
+        <image style="width: 60%;display: block;margin: 160rpx auto;" src="{{item.imgSrc}}"></image>
+      </view>
+    </view>
+  </view>
 </view>

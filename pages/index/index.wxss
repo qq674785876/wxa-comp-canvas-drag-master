@@ -9,21 +9,67 @@ page {
   background: #eee;
   overflow: hidden;
 }
-.cropper {
-  width: 100%;
-  height: 100%;
+.menu-box{
+  position: absolute;
+  height: 520rpx;
+  width: 520rpx;
+  transition: .4s;
+  bottom: -260rpx;
+  z-index: 999999;
 }
-.img {
-  margin: 20rpx auto;
-  display: block;
-  background: #fff;
-}
-.choose-img {
-  width: 40%;
+.menu-list{
+  /* 这里一定要绝对定位，这样位置才能铺开来 */
+  position: absolute;
+  top:  0;
+  left: 0;
+  width: 160rpx;
+  height:  160rpx;
+  line-height:  160rpx;
+  border-radius:  50%;
   text-align: center;
-  padding: 30rpx;
-  border: 1px solid #fff;
-  margin: 20rpx auto;
-  background: #000;
-  color: #fff;
+  font-size: 30rpx;
+  color: #000;
+  border: 1rpx solid darkkhaki;
+}
+.menu-list .menu-list-cont{
+  height: 100%;
+  width: 100%;
+}
+.menu-list:nth-of-type(1){
+  /* rotateZ控制方向，每个元素旋转90度，4个元素刚好360度。translateY控制每个元素距中心点的距离 */
+  transform: rotateZ(0deg) translateX(180rpx);
+}
+.menu-list:nth-of-type(2){
+  left: inherit;
+  right: 0;
+  transform: rotateZ(90deg) translateX(180rpx);
+}
+.menu-list:nth-of-type(3){
+  top: inherit;
+  bottom: 0;
+  transform: rotateZ(0deg) translateX(180rpx);
+}
+.menu-list:nth-of-type(3) .menu-list-cont{
+  transform: rotate(180deg);
+}
+.menu-list:nth-of-type(4){
+  transform: rotateZ(90deg) translateX(180rpx);
+}
+.menu-list:nth-of-type(4) .menu-list-cont{
+  transform: rotate(180deg);
+}
+
+/* 内容 */
+.module-box{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.module-box .m-list{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.module-box .m-list .m-cont{
+  height: calc(100vh - 260rpx);
 }

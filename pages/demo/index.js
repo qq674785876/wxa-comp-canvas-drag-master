@@ -28,6 +28,7 @@ Page({
     onAddImage() {
       var _this = this;
       wx.chooseImage({
+          sizeType: ['original'], // 可以指定是原图还是压缩图，默认二者都有
           success: (res) => {
             let imgUrl = res.tempFilePaths[0];
             // 获取图片大小

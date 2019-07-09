@@ -1,5 +1,5 @@
 page{
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .preview-box{
   width: 100%;
@@ -19,6 +19,10 @@ page{
 }
 .down-canvas{
   margin-top: 180rpx;
+}
+.down-canvas canvas{
+  height: 100vw;
+  width: 100vw;
 }
 #downCanvas{
   display: block !important;

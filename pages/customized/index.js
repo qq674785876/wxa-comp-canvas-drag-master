@@ -11,8 +11,8 @@ Page({
         },
         downCanvas: {
           context: null,
-          height: wx.getSystemInfoSync().windowWidth,
-          width: wx.getSystemInfoSync().windowWidth
+          height: wx.getSystemInfoSync().windowWidth * 4,
+          width: wx.getSystemInfoSync().windowWidth * 4
         },
         dragWidth: wx.getSystemInfoSync().windowWidth * .4,
         dragHeight: wx.getSystemInfoSync().windowWidth * .5
@@ -34,7 +34,7 @@ Page({
       var context = this.data.downCanvas.context;
       var windowWidth = wx.getSystemInfoSync().windowWidth;
       var demoImg = this.data.demoImg;
-      context.drawImage(demoImg.src, 0, 0, windowWidth, windowWidth / demoImg.width * demoImg.height);
+      context.drawImage(demoImg.src, 0, 0, _this.data.downCanvas.width, _this.data.downCanvas.width / demoImg.width * demoImg.height);
     },
     onComplete: function(){
       var _this = this;
@@ -53,10 +53,14 @@ Page({
               console.log(imgHeight);
               var context = this.data.downCanvas.context;
               var windowWidth = wx.getSystemInfoSync().windowWidth;
-              context.drawImage(filePath, (windowWidth - _this.data.dragWidth) * .5, _this.data.dragHeight * .5, _this.data.dragWidth, _this.data.dragHeight);
+              context.drawImage(filePath, (windowWidth - _this.data.dragWidth) * 2, _this.data.dragHeight * 2, _this.data.dragWidth * 4, _this.data.dragHeight * 4);
               // wx.previewImage({
               //   urls: [filePath]
               // })
+              context.mozImageSmoothingEnabled = false;
+              context.webkitImageSmoothingEnabled = false;
+              context.msImageSmoothingEnabled = false;
+              context.imageSmoothingEnabled = false;
               //绘制图片
               context.draw();
               _this.downImg();
@@ -71,14 +75,16 @@ Page({
         })
     },
     downImg: function(){
+      let _this = this;
       wx.showLoading({
         title: '图片生成中',
       })
       setTimeout(function(){
+        _this.onExportJSON();
         wx.canvasToTempFilePath({
           canvasId: 'downCanvas',
-          destWidth: wx.getSystemInfoSync().windowWidth,
-          destHeight: wx.getSystemInfoSync().windowWidth,
+          destWidth: wx.getSystemInfoSync().windowWidth * 2,
+          destHeight: wx.getSystemInfoSync().windowWidth * 2,
           success: (res) => {
             wx.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,   //这个只是测试路径，没有效果

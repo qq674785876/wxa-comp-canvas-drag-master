@@ -39,7 +39,7 @@ Page({
     onComplete: function(){
       var _this = this;
       this.initDownCanvas();
-      CanvasDrag.export(1000, 1000)
+      CanvasDrag.export()
         .then((filePath) => {
           console.log(filePath);
           // 获取图片大小
@@ -48,11 +48,15 @@ Page({
             success: data => {
               let imgWidth = data.width;
               let imgHeight = data.height;
+              console.log(data);
               console.log(imgWidth);
               console.log(imgHeight);
               var context = this.data.downCanvas.context;
               var windowWidth = wx.getSystemInfoSync().windowWidth;
-              context.drawImage(filePath, (windowWidth - imgWidth) / 2, imgHeight * .5, imgWidth, imgHeight)
+              context.drawImage(filePath, (windowWidth - _this.data.dragWidth) * .5, _this.data.dragHeight * .5, _this.data.dragWidth, _this.data.dragHeight);
+              // wx.previewImage({
+              //   urls: [filePath]
+              // })
               //绘制图片
               context.draw();
               _this.downImg();

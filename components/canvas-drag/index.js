@@ -488,8 +488,8 @@ Component({
                 this.draw().then(() => {
                     wx.canvasToTempFilePath({
                         canvasId: 'canvas-label',
-                        destWidth: destWidth,
-                        destHeight: destHeight,
+                        // destWidth: destWidth,
+                        // destHeight: destHeight,
                         success: (res) => {
                             resolve(res.tempFilePath);
                         },  

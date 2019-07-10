@@ -1,0 +1,81 @@
+.nav-box{
+  width: 100%;
+  text-align: center;
+  font-size: 30rpx;
+  padding-top: 30rpx;
+  background-color: #fff;
+  border-bottom: 2rpx solid #eee;
+}
+.nav-box .nav-list{
+  float: left;
+  width: 20%;
+  padding: 20rpx 0;
+}
+.nav-box::after{
+  content: '';
+  display: block;
+  clear: both;
+}
+.nav-box .nav-list text{
+  padding: 20rpx 0;
+}
+.nav-box .nav-list.active text{
+  color: coral;
+  border-bottom: 2px solid coral;
+}
+
+.order-box{
+  width: 100%;
+  max-height:calc(100vh - 115rpx);
+  overflow: auto;
+}
+.order-box .order-list{
+  padding: 20rpx 30rpx;
+  padding-top: 40rpx;
+  position: relative;
+  margin-top: 10rpx;
+  background-color: #fff;
+}
+.order-box .order-list:first-child{
+  margin-top: 0;
+}
+.order-list image{
+  height: 120rpx;
+  width: 120rpx;
+}
+.order-list .iconiconzhengli-{
+  font-size: 60rpx;
+  position: absolute;
+  right: 30rpx;
+  top: 70rpx;
+  color: #ccc;
+}
+.order-list .tips-box{
+  border-top: 1px dashed #ccc;
+  margin-top: 20rpx;
+  padding: 30rpx 0 15rpx;
+  font-size: 26rpx;
+  color: #333;
+}
+.order-list .pay-btn{
+  padding: 10rpx 20rpx;
+  color: coral;
+  border: 1rpx solid coral;
+  float: right;
+  font-size: 26rpx;
+  border-radius: 40rpx;
+  position: relative;
+  top: -10rpx;
+}
+.no-order{
+  font-size: 30rpx;
+  color: #333;
+  text-align: center;
+  padding-top: 200rpx;
+}
+.no-order image{
+  display: block;
+  width: 200rpx;
+  height: 200rpx;
+  margin: 30rpx auto;
+}

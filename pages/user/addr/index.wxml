@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="addr-box">
+    <view class="addr-list" wx:for="{{addrArr}}">
+      <text class="iconfont iconxuanzhong-copy"></text>
+      <view class="info-box">
+        <text class="name">{{item.name}}</text>
+        <text class="phone">{{item.phone}}</text>
+        <text class="addr">{{item.addr}}</text>
+      </view>
+      <view class="btn-box">
+        <text bindtap="edit" class="iconfont iconxiugai edit">编辑</text>
+        <text bindtap="delete" class="iconfont iconmenu_reject2Submitor delete">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <!--mask-->  
+  <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view> 
+    <!--使用animation属性指定需要执行的动画-->  
+  <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">  
+    <!--drawer content-->  
+    <view class="drawer_title">{{drawer.title}}</view>  
+    <view class="drawer_content">  
+      <view class="top grid">  
+        <input class="input_base col-1" placeholder="请输入收货人"></input>  
+      </view>  
+      <view class="top grid">  
+        <input class="input_base col-1" placeholder="请输入联系电话"></input>  
+      </view>  
+      <view class="top grid">  
+        <picker mode="region" bindchange='bingRegionChange' value='{{region}}'>
+          <view class="picker">
+            <text wx:if='{{region[0]}}'>{{region[0]}}{{region[1]}}{{region[2]}}</text>
+            <text wx:else>请选择城市</text>
+            <text class="iconfont iconiconzhengli-"></text>
+          </view>
+        </picker>
+      </view>  
+      <view class="top grid">  
+        <input class="input_base input_h30 col-1" placeholder="请输入详细地址"></input>  
+      </view>  
+    </view>  
+    <view class="btn_ok" bindtap="saveAddr">确定</view>  
+  </view>
+  <view class="add-btn" bindtap="addAddr">+ 新增收货地址</view>
+</view>

@@ -1,0 +1,38 @@
+/* pages/user/index/index.wxss */
+page{
+  background: #eee;
+}
+.container{
+}
+.header{
+  width: 100%;
+  padding: 50rpx 0;
+  background: #eee;
+}
+.header .head{
+  height: 120rpx;
+  width: 120rpx;
+  margin: 0 auto;
+  display: block;
+  border-radius: 100%;
+}
+.model-box{
+  width: calc(100% - 60rpx);
+  padding: 0 30rpx 30rpx;
+  background: #fff;
+}
+.model-box .model-list{
+  border-bottom: 1px solid #eee;
+  padding: 30rpx;
+}
+.model-list .name{
+  font-size: 30rpx;
+  padding-left: 30rpx;
+}
+.model-list .iconfont{
+}
+.model-list .iconiconzhengli-{
+  float: right;
+  font-size: 60rpx;
+  color: #ccc;
+}

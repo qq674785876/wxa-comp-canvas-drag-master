@@ -1,0 +1,78 @@
+/* pages/user/addr/index.wxss */
+.addr-box{
+  width: 100%;
+  height: calc(100vh - 100rpx);
+}
+.addr-list{
+  padding: 0 30rpx;
+  font-size: 30rpx;
+  color: #000;
+  background-color: #fff;
+  position: relative;
+  margin-top: 10rpx;
+}
+.addr-list:first-child{
+  margin-top: 0rpx;
+}
+.addr-list .iconxuanzhong-copy{
+  position: absolute;
+  font-size: 40rpx;
+  top: 60rpx;
+  color: #ccc;
+} 
+.addr-list.active .iconxuanzhong-copy{
+  color: coral;
+}
+.addr-list .name,.addr-list .phone{
+  float: left;
+  padding: 30rpx 0 20rpx;
+  width: 50%;
+}
+.addr-list .info-box{
+  padding: 0 0 0 80rpx;
+}
+.addr-list .name{
+  width: calc(50% - 30rpx);
+  padding-right: 30rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  color: #333;
+}
+.addr-list .addr{
+  color: #ccc;
+  display: block;
+  padding-bottom: 30rpx;
+}
+.addr-list .btn-box{
+  padding: 20rpx 0;
+  border-top: 1rpx solid #eee;
+  text-align: right;
+  color: #333;
+}
+.btn-box text{
+  font-size: 30rpx;
+}
+.btn-box .delete{
+}
+.btn-box .edit{
+  margin: 0 40rpx;
+}
+.btn-box .iconfont{
+  position: relative;
+  left: 10rpx;
+}
+.add-btn{
+  line-height: 100rpx;
+  background-color: coral;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+}
+.picker{
+  padding: 10rpx 0 10rpx 10rpx;
+}
+.picker .iconiconzhengli-{
+  font-size: 30rpx;
+}

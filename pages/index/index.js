@@ -33,8 +33,14 @@ Page({
     moveX: 0,
     menuDeg: 0
   },
+  /**
+ * 生命周期函数--监听页面加载
+ */
+  onLoad: function (options) {
+
+  },
   tapModule: function(e){
-    var item = e.currentTarget.dataset.item;
+    let item = e.currentTarget.dataset.item;
     console.log(item);
     if (item.path){
       wx.navigateTo({
@@ -80,5 +86,10 @@ Page({
       activeNavIndex: activeNavIndex
     })
     console.log(activeNavIndex)
+  },
+  jumpMyPage: function(){
+    wx.navigateTo({
+      url: '/pages/user/index/index'
+    })
   }
 })

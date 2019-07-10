@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="header">
+    <image class="head" src='{{userInfo.head}}'></image>
+  </view>
+  <view class="model-box">
+    <view class="model-list" wx:for="{{modelArr}}" bindtap='setPath' data-path="{{item.path}}">
+      <text class="iconfont {{item.iconClass}}"></text><text class="name">{{item.name}}</text>
+      <text class="iconfont iconiconzhengli-"></text>
+    </view>
+  </view>
+</view>

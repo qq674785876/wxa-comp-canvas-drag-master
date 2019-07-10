@@ -1,0 +1,25 @@
+<view class="container">
+  <view class="nav-box">
+    <view 
+      class="nav-list {{item.value === activeNavIndex ? 'active' : ''}}" 
+      wx:for="{{navArr}}" 
+      bindtap='activeNav'
+      data-value="{{item.value}}">
+      <text>{{item.name}}</text>
+    </view>
+  </view>
+  <view class="order-box">
+    <view class="order-list" wx:for="{{orderArr}}">
+      <image src="{{item.img}}"></image>
+      <text class='iconfont iconiconzhengli-'></text>
+      <view class="tips-box" wx:if="{{activeNavIndex < 2}}">
+        <text>商品价格：￥{{item.price}}</text>
+        <text class="pay-btn">去付款</text>
+      </view>
+    </view>
+    <view class="no-order" wx:if="{{orderArr.length === 0}}">
+      <image mode="aspectFit" src="/assets/images/noOrder.png"></image>
+      无订单!
+    </view>
+  </view>
+</view>

@@ -1,10 +1,8 @@
 //app.js
 App({
   onLaunch: function () {
-    //调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    var _this = this;
+    _this.getUserInfo();
   },
   getUserInfo: function (cb) {
     var that = this
@@ -26,5 +24,6 @@ App({
   },
   globalData: {
     userInfo: null
-  }
+  },
+  apiHost: 'http://106.13.66.152:8686'
 })

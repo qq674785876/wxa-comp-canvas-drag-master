@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/authorization/index",
     "pages/user/addr/index",
     "pages/index/index",
     "pages/user/order/index",

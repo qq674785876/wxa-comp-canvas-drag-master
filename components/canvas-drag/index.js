@@ -417,17 +417,23 @@ Component({
             let lastDelIndex = null; // 记录最后一个需要删除的索引
             this.drawArr && this.drawArr.forEach((item, index) => {
                 const action = item.isInGraph(x, y);
-                if (action) {
+                if (e.touches.length == 2) {
+                  item.action = 'transform';
+                  this.tempGraphArr.push(item);
+                  this.currentTouch = { x, y };
+                }else{
+                  if (action) {
                     item.action = action;
                     this.tempGraphArr.push(item);
                     // 保存点击时的坐标
-                    this.currentTouch = {x, y};
+                    this.currentTouch = { x, y };
                     if (action === 'del') {
-                        lastDelIndex = index;// 标记需要删除的元素
+                      lastDelIndex = index;// 标记需要删除的元素
                     }
-                } else {
+                  } else {
                     item.action = false;
                     item.selected = false;
+                  }
                 }
             });
             // 保存点击时元素的信息

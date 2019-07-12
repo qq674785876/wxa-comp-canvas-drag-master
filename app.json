@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/customized/index",
     "pages/authorization/index",
     "pages/user/addr/index",
     "pages/index/index",
     "pages/user/order/index",
     "pages/user/index/index",
-    "pages/customized/index",
     "pages/demo/index"
   ],
   "window": {

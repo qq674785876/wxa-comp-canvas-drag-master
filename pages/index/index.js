@@ -20,13 +20,17 @@ Page({
     moduleArr: [{
       bgColor: 'red',
       path: '/pages/customized/index',
+      value: 0,
       imgSrc: '/assets/images/test.jpg'
     },{
       bgColor: 'black', 
+      value: 1
     },{
       bgColor: 'blue', 
+      value: 2
     },{
-      bgColor: 'yellow', 
+      bgColor: 'yellow',
+      value: 3
     }],
     startPoint: {},//触摸开始
     activeNavIndex: 0,
@@ -44,7 +48,7 @@ Page({
     console.log(item);
     if (item.path){
       wx.navigateTo({
-        url: item.path
+        url: item.path + '?type=' + item.value
       })
     }
   },

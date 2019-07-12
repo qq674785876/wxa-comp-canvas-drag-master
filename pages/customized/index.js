@@ -4,23 +4,77 @@ import CanvasDrag from '../../components/canvas-drag/canvas-drag';
 Page({
     data: {
         graph: {},
+        type: 0,
         demoImg: {
-          src: '/assets/images/T-shirt.jpg',
+          src: '',
           height: '',
           width: ''
+        },
+        demoImgArr: [
+          {
+            img: ['/assets/images/whiteTshirt.jpg', '/assets/images/blackTshirt.jpg'],
+            dragWidth: wx.getSystemInfoSync().windowWidth * .38,
+            dragHeight: wx.getSystemInfoSync().windowWidth * .48
+          },
+          {
+            img: ['/assets/images/whiteHoodedCap.jpg', '/assets/images/blackHoodedCap.jpg'],
+            dragWidth: wx.getSystemInfoSync().windowWidth * .3,
+            dragHeight: wx.getSystemInfoSync().windowWidth * .3,
+            margin: wx.getSystemInfoSync().windowWidth * .34 + 'px auto'
+          },
+          {
+            img: ['/assets/images/whiteNoCap.jpg', '/assets/images/blackNoCap.jpg'],
+            dragWidth: wx.getSystemInfoSync().windowWidth * .4,
+            dragHeight: wx.getSystemInfoSync().windowWidth * .5
+          }
+        ],
+        previewCanvas:{
+          context: null,
+          height: wx.getSystemInfoSync().windowWidth,
+          width: wx.getSystemInfoSync().windowWidth
         },
         downCanvas: {
           context: null,
           height: wx.getSystemInfoSync().windowWidth * 4,
           width: wx.getSystemInfoSync().windowWidth * 4
-        },
-        dragWidth: wx.getSystemInfoSync().windowWidth * .4,
-        dragHeight: wx.getSystemInfoSync().windowWidth * .5
+        }
     },
-    imageLoad:function(e){
-      this.setData({
-        'demoImg.height': e.detail.height,
-        'demoImg.width': e.detail.width,
+    onLoad: function(options){
+      let _this  = this;
+      let type = options.type || '1';
+      let demoImgArr = _this.data.demoImgArr;
+      let imgSrc = demoImgArr[type].img[0];
+      _this.setData({
+        'demoImg.src': imgSrc,
+        'type': type
+      })
+      _this.setImageInfo(imgSrc);
+    },
+    initPreviewCanvas: function(){
+      let _this = this;
+      let context = wx.createCanvasContext('previewCanvas');
+      let windowWidth = wx.getSystemInfoSync().windowWidth;
+      let demoImg = this.data.demoImg;
+      _this.setData({
+        'previewCanvas.context': context
+      })
+      console.log(demoImg);
+      context.drawImage(demoImg.src, 0, 0, _this.data.previewCanvas.width, _this.data.previewCanvas.width / demoImg.width * demoImg.height);
+      //绘制图片
+      context.draw();
+    },
+    setImageInfo: function (filePath){
+      let _this = this;
+      wx.getImageInfo({
+        src: filePath,
+        success: data => {
+          _this.setData({
+            'demoImg.src': filePath,
+            'demoImg.height': data.height,
+            'demoImg.width': data.width,
+          })
+          _this.initPreviewCanvas();
+        }
       })
     },  
     onShow: function(){
@@ -48,12 +102,13 @@ Page({
             success: data => {
               let imgWidth = data.width;
               let imgHeight = data.height;
-              console.log(data);
-              console.log(imgWidth);
-              console.log(imgHeight);
+              let dragWidth = _this.data.demoImgArr[_this.data.type].dragWidth;
+              let dragHeight = _this.data.demoImgArr[_this.data.type].dragHeight;
+              let downCanvas = _this.data.downCanvas;
               var context = this.data.downCanvas.context;
               var windowWidth = wx.getSystemInfoSync().windowWidth;
-              context.drawImage(filePath, (windowWidth - _this.data.dragWidth) * 2, _this.data.dragHeight * 2, _this.data.dragWidth * 4, _this.data.dragHeight * 4);
+              console.log(downCanvas.width - dragWidth + ',' + dragHeight);
+              context.drawImage(filePath, (windowWidth - dragWidth) * 2, (windowWidth - dragHeight) * 2, dragWidth * 4, dragHeight * 4);
               // wx.previewImage({
               //   urls: [filePath]
               // })
@@ -132,7 +187,8 @@ Page({
               success: data => {
                 let imgWidth = data.width;
                 let imgHeight = data.height;
-                let dragWidth = _this.data.dragWidth;
+                let dragWidth = _this.data.demoImgArr[_this.data.type].dragWidth;
+                let dragHeight = _this.data.demoImgArr[_this.data.type].dragHeight;
                 this.setData({
                   graph: {
                     w: dragWidth * .5,

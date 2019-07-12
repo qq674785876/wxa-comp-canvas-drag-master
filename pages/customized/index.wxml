@@ -1,7 +1,8 @@
 <view class="container">
   <view class="preview-box">
-    <image bindload="imageLoad" mode="aspectFit" src="{{demoImg.src}}"></image>
-    <canvas-drag id="canvas-drag" graph="{{graph}}" width="{{dragWidth}}" height="{{dragHeight}}" ></canvas-drag>
+    <!-- <image bindload="imageLoad" mode="aspectFit" src="{{demoImg.src}}"></image> -->
+    <canvas canvas-id="previewCanvas" style="height: {{previewCanvas.height}}px;width: {{previewCanvas.width}}px;"></canvas>
+    <canvas-drag id="canvas-drag" graph="{{graph}}" width="{{demoImgArr[type].dragWidth}}" height="{{demoImgArr[type].dragHeight}}" margin="{{demoImgArr[type].margin}}"></canvas-drag>
   </view>
   <view class="btn-box">
     <text bindtap='onAddText'>文字</text>

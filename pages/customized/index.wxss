@@ -1,5 +1,5 @@
 page{
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .preview-box{
   width: 100%;
@@ -13,6 +13,11 @@ page{
   transform: scale(1.6);
 }
 #canvas-drag{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
 }
 #canvas-drag canvas{
   margin:36% auto;

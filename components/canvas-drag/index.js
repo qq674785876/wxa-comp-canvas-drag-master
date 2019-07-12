@@ -327,6 +327,10 @@ Component({
             type: Number,
             value: 750,
         },
+        margin: {
+          type: String,
+          value: '36% auto',
+        }
     },
 
     /**

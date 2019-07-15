@@ -3,14 +3,18 @@
     <view class="addr-list" wx:for="{{addrArr}}">
       <text class="iconfont iconxuanzhong-copy"></text>
       <view class="info-box">
-        <text class="name">{{item.name}}</text>
-        <text class="phone">{{item.phone}}</text>
-        <text class="addr">{{item.addr}}</text>
+        <text class="name">{{item.Address_user_name}}</text>
+        <text class="phone">{{item.Address_user_phone}}</text>
+        <text class="addr">{{item.Province + item.City + item.Regoin + item.Detail_address}}</text>
       </view>
       <view class="btn-box">
-        <text bindtap="edit" class="iconfont iconxiugai edit">编辑</text>
-        <text bindtap="delete" class="iconfont iconmenu_reject2Submitor delete">删除</text>
+        <text bindtap="editAddr" data-item="{{item}}" class="iconfont iconxiugai edit">编辑</text>
+        <text bindtap="deleteAddr" data-item="{{item}}" class="iconfont iconmenu_reject2Submitor delete">删除</text>
       </view>
+    </view>
+    <view class="no-addr" wx:if="{{addrArr.length === 0}}">
+      <image mode="aspectFit" src="/assets/images/noOrder.png"></image>
+      无地址，请新增!
     </view>
   </view>
 
@@ -22,10 +26,10 @@
     <view class="drawer_title">{{drawer.title}}</view>  
     <view class="drawer_content">  
       <view class="top grid">  
-        <input class="input_base col-1" placeholder="请输入收货人"></input>  
+        <input class="input_base col-1" placeholder="请输入收货人" value="{{addInfo.name}}" bindinput="inputName"></input>  
       </view>  
       <view class="top grid">  
-        <input class="input_base col-1" placeholder="请输入联系电话"></input>  
+        <input class="input_base col-1" placeholder="请输入联系电话" value="{{addInfo.phone}}" bindinput="inputPhone"></input>  
       </view>  
       <view class="top grid">  
         <picker mode="region" bindchange='bingRegionChange' value='{{region}}'>
@@ -37,7 +41,7 @@
         </picker>
       </view>  
       <view class="top grid">  
-        <input class="input_base input_h30 col-1" placeholder="请输入详细地址"></input>  
+        <input class="input_base input_h30 col-1"  value="{{addInfo.addr}}" placeholder="请输入详细地址" bindinput="inputAddr"></input>  
       </view>  
     </view>  
     <view class="btn_ok" bindtap="saveAddr">确定</view>  

@@ -1,0 +1,25 @@
+<view class="order-details-box">
+  <view class="addr-box" bindtap='selectAddr'>
+    <view class="addr-list">
+      <text class="iconfont iconshouhuodizhi"></text>
+      <view class="info-box">
+        <text class="name">{{addrInfo.name}}</text>
+        <text class="phone">{{addrInfo.phone}}</text>
+        <text class="addr">{{addrInfo.addr}}</text>
+      </view>
+      <text class="iconfont iconiconzhengli-"></text>
+    </view>
+  </view>
+  <view class="goods-box">
+    <image mode="aspectFit" src="/assets/images/T-shirt.jpg"></image>
+    <text>3件</text>
+  </view>
+  <view class="order-box">
+    <text>运费：<text class="coral">（免邮）</text></text>
+    <text class="price">包邮</text>
+  </view>
+  <view class="btn-box">
+    <text>合计：<text class="coral">￥{{price}}</text></text>
+    <view class="btn">提交订单</view>
+  </view>
+</view>

@@ -1,15 +1,53 @@
 <view class="container">
-  <view class="preview-box">
+  <view class="preview-box" style="display: {{previewCanvas.display}};">
     <!-- <image bindload="imageLoad" mode="aspectFit" src="{{demoImg.src}}"></image> -->
-    <canvas canvas-id="previewCanvas" style="height: {{previewCanvas.height}}px;width: {{previewCanvas.width}}px;"></canvas>
+    <canvas canvas-id="previewCanvas" style=";height: {{previewCanvas.height}}px;width: {{previewCanvas.width}}px;"></canvas>
     <canvas-drag id="canvas-drag" graph="{{graph}}" width="{{demoImgArr[type].dragWidth}}" height="{{demoImgArr[type].dragHeight}}" margin="{{demoImgArr[type].margin}}"></canvas-drag>
   </view>
   <view class="btn-box">
-    <text bindtap='onAddText'>文字</text>
+    <text bindtap='addText'>文字</text>
     <text bindtap='onAddImage'>图片</text>
     <text class="complete-btn" bindtap='onComplete'>完成设计</text>
   </view>
   <view class="down-canvas">
     <canvas canvas-id="downCanvas" style="height: {{downCanvas.height}}px;width:{{downCanvas.width}}px;"></canvas>
+  </view>
+  <view class="text-input-mc" wx:if="{{isShowTextInput}}">
+    <view class="text-input-box">
+      <view class="input-box" style="position: relative;bottom:{{textInput.bottom}};">
+        <input placeholder="请输入文字" bindinput="bindKeyInput" adjust-position="true" bindkeyboardheightchange="bindkeyboardheightchange" style="width: calc(80% - 30rpx);padding-left:30rpx;height: 80rpx;float: left;"></input>
+        <button style="width: 20%;line-height: 80rpx;border-radius: 0;float: left;" bindtap='confirmInput'>确定</button>
+      </view>
+      <view class="family-box">
+        <view 
+          wx:for='{{familyArr}}' 
+          class="{{activeFamilyIndex === index ? 'active' : ''}}" 
+          data-item="{{item}}"
+          data-index="{{index}}"
+          bindtap='bindtapFamily'
+          style="font-family:{{item.type}}">定制宝 DINGZHIBAO</view>
+      </view>
+    </view>
+  </view>
+  <view class="params-mc" wx:if="isShowParams">
+    <view class="params-container">
+      <view class="price">￥{{price}}</view>
+      <view class="params-box">
+        <view class="params-list" wx:for="{{paramsArr}}" wx:for-index="pindex" wx:for-item="productParams">
+          <view class="name">{{productParams.name}}</view>
+          <view class="params-son-box">
+            <view 
+              wx:for="{{productParams.params}}" 
+              wx:for-index="sonIndex"
+              data-item="{{item}}" 
+              data-pIndex="{{pindex}}"
+              data-index="{{sonIndex}}" 
+              class="params-son-list {{ activeParamsIndexArr[pindex].id === item.id ? 'active' : ''}}" 
+              bindtap='activeParamsSon'>{{item.name}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="sure-btn" bindtap='creatOrder'>确定</view>
+    </view>
   </view>
 </view>

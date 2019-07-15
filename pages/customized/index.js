@@ -1,10 +1,36 @@
 //index.js
 import CanvasDrag from '../../components/canvas-drag/canvas-drag';
+let app = getApp();
+let user = wx.getStorageSync('user') || {};
 
 Page({
     data: {
         graph: {},
         type: 0,
+        Product_id: 0,
+        isShowTextInput: false,
+        isShowParams: true,
+        activeFamilyIndex: 0,
+        textInput: {
+          bottom: 0,
+          cont: ''
+        },
+        familyArr: [{
+          name: '楷体',
+          type: 'KaiTi'
+        },{
+          name: '微软雅黑',
+          type: 'Microsoft YaHei'
+        },{
+          name: '仿宋',
+          type: 'FangSong'
+        },{
+          name: '黑体',
+          type: 'SimHei'
+        },{
+          name: '新宋体',
+          type: 'NSimSun'
+        }],
         demoImg: {
           src: '',
           height: '',
@@ -14,22 +40,27 @@ Page({
           {
             img: ['/assets/images/whiteTshirt.jpg', '/assets/images/blackTshirt.jpg'],
             dragWidth: wx.getSystemInfoSync().windowWidth * .38,
-            dragHeight: wx.getSystemInfoSync().windowWidth * .48
+            dragHeight: wx.getSystemInfoSync().windowWidth * .48,
+            margin: wx.getSystemInfoSync().windowWidth * .26 + 'px ' + wx.getSystemInfoSync().windowWidth * .295 + 'px '
+          },
+          {
+            img: ['/assets/images/whiteNoCap.jpg', '/assets/images/blackNoCap.jpg'],
+            dragWidth: wx.getSystemInfoSync().windowWidth * .4,
+            dragHeight: wx.getSystemInfoSync().windowWidth * .5,
+            margin: wx.getSystemInfoSync().windowWidth * .2 + 'px auto'
           },
           {
             img: ['/assets/images/whiteHoodedCap.jpg', '/assets/images/blackHoodedCap.jpg'],
             dragWidth: wx.getSystemInfoSync().windowWidth * .3,
             dragHeight: wx.getSystemInfoSync().windowWidth * .3,
             margin: wx.getSystemInfoSync().windowWidth * .34 + 'px auto'
-          },
-          {
-            img: ['/assets/images/whiteNoCap.jpg', '/assets/images/blackNoCap.jpg'],
-            dragWidth: wx.getSystemInfoSync().windowWidth * .4,
-            dragHeight: wx.getSystemInfoSync().windowWidth * .5
           }
         ],
+        paramsArr: [],
+        activeParamsIndexArr: [],
         previewCanvas:{
           context: null,
+          display: 'block',
           height: wx.getSystemInfoSync().windowWidth,
           width: wx.getSystemInfoSync().windowWidth
         },
@@ -37,18 +68,107 @@ Page({
           context: null,
           height: wx.getSystemInfoSync().windowWidth * 4,
           width: wx.getSystemInfoSync().windowWidth * 4
+        },
+        activeProductParams: {
+          pid: 0,
+          id: 0
+        },
+        price: 10
+    },
+    //获取商品参数
+    getProductparam: function () {
+      let _this = this;
+      wx.showLoading({
+        title: '加载中',
+      })
+      app.request({
+        url: '/getproductparam',
+        data: {
+          productid: _this.data.Product_id,
+          userid: user.userid
+        },
+        method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT  
+        success: function (res) {
+          wx.hideLoading()
+          let data = res.data;
+          if (data.error === 0) {
+            let productParams = data.result.productParams;
+            let activeParamsIndexArr = [];
+            for (let i = 0; i < productParams.length; i++) {
+              activeParamsIndexArr.push(productParams[i].params[0]);
+            }
+            console.log(activeParamsIndexArr);
+            _this.setData({
+              paramsArr: productParams,
+              activeParamsIndexArr: activeParamsIndexArr
+            })
+          }
         }
+      })
+    },
+    activeParamsSon: function(e){
+      let _this = this;
+      let item = e.currentTarget.dataset.item;
+      let pindex = e.currentTarget.dataset.pindex;
+      let index = e.currentTarget.dataset.index;
+      let paramsArr = _this.data.paramsArr;
+      let activeParamsIndexArr = _this.data.activeParamsIndexArr;
+      activeParamsIndexArr[pindex] = paramsArr[pindex].params[index];
+      _this.setData({
+        activeParamsIndexArr: activeParamsIndexArr
+      })
+    },
+    creatOrder: function(){
+      let _this = this;
+      _this.initDownCanvas();
     },
     onLoad: function(options){
       let _this  = this;
-      let type = options.type || '1';
+      let Product_id = options.Product_id || '9';
+      let type = 0;
+      if (Product_id == 9){
+        type = 0;
+      } else if (Product_id == 10) {
+        type = 1;
+      } else if (Product_id == 11) {
+        type = 2;
+      }
       let demoImgArr = _this.data.demoImgArr;
       let imgSrc = demoImgArr[type].img[0];
       _this.setData({
         'demoImg.src': imgSrc,
+        'Product_id': Product_id,
         'type': type
       })
       _this.setImageInfo(imgSrc);
+      _this.getProductparam();
+    },
+    bindkeyboardheightchange: function(e){
+
+    },
+    confirmInput: function(){
+      let _this = this;
+      let text = _this.data.textInput.cont;
+      let activeFamilyIndex = _this.data.activeFamilyIndex;
+      let familyArr = _this.data.familyArr;
+      if (text){
+        _this.onAddText(text, 'black', 'normal 400px ' + familyArr[activeFamilyIndex].type);
+        _this.setData({
+          isShowTextInput: false,
+          'previewCanvas.display': 'block'
+        })
+      }else{
+        wx.showToast({
+          title: '请输入文字',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    },
+    bindKeyInput: function (e) {
+      this.setData({
+        'textInput.cont': e.detail.value
+      })
     },
     initPreviewCanvas: function(){
       let _this = this;
@@ -80,6 +200,19 @@ Page({
     onShow: function(){
 
     },
+    addText: function () {
+      this.setData({
+        isShowTextInput: true,
+        'previewCanvas.display': 'none',
+        'textInput.cont': ''
+      })
+    },
+    bindtapFamily: function(e){
+      let index = e.currentTarget.dataset.index;
+      this.setData({
+        activeFamilyIndex: index
+      })
+    },
     initDownCanvas: function(){
       var _this = this;
       this.setData({
@@ -89,10 +222,6 @@ Page({
       var windowWidth = wx.getSystemInfoSync().windowWidth;
       var demoImg = this.data.demoImg;
       context.drawImage(demoImg.src, 0, 0, _this.data.downCanvas.width, _this.data.downCanvas.width / demoImg.width * demoImg.height);
-    },
-    onComplete: function(){
-      var _this = this;
-      this.initDownCanvas();
       CanvasDrag.export()
         .then((filePath) => {
           console.log(filePath);
@@ -118,7 +247,7 @@ Page({
               context.imageSmoothingEnabled = false;
               //绘制图片
               context.draw();
-              _this.downImg();
+              _this.generateImg();
             }
           });
           // wx.previewImage({
@@ -129,7 +258,13 @@ Page({
           console.error(e);
         })
     },
-    downImg: function(){
+    onComplete: function(){
+      var _this = this;
+      _this.setData({
+        isShowParams: true
+      })
+    },
+    generateImg: function(){
       let _this = this;
       wx.showLoading({
         title: '图片生成中',
@@ -141,23 +276,27 @@ Page({
           destWidth: wx.getSystemInfoSync().windowWidth * 2,
           destHeight: wx.getSystemInfoSync().windowWidth * 2,
           success: (res) => {
-            wx.saveImageToPhotosAlbum({
-              filePath: res.tempFilePath,   //这个只是测试路径，没有效果
-              success(res) {
-                wx.hideLoading();
-                console.log("success");
-              },
-              fail: function (res) {
-                wx.hideLoading();
-                console.log(res);
-              }
-            })
+            // _this.saveImage();
+            
           },
           fail: (e) => {
             reject(e);
           },
         }, this);
       }, 500)
+    },
+    saveImage: function(path){
+      wx.saveImageToPhotosAlbum({
+        filePath: path,   //这个只是测试路径，没有效果
+        success(res) {
+          wx.hideLoading();
+          console.log("success");
+        },
+        fail: function (res) {
+          wx.hideLoading();
+          console.log(res);
+        }
+      })
     },
     /**
      * 添加测试图片
@@ -206,11 +345,13 @@ Page({
     /**
      * 添加文本
      */
-    onAddText() {
+    onAddText(text, color, font) {
         this.setData({
             graph: {
-                type: 'text',
-                text: 'helloworld',
+              type: 'text',
+              text: text,
+              color: color,
+              font: font
             }
         });
     },

@@ -5,7 +5,7 @@ const STROKE_COLOR = 'red';
 const ROTATE_ENABLED = true;
 
 const DEBUG_MODE = false; // 打开调试后会渲染操作区域边框（无背景时有效）
-const dragGraph = function ({x = 30, y = 30, w, h, type, text, fontSize = 20, color = 'red', url = null, rotate = 0, sourceId = null, selected = true}, canvas, factor) {
+const dragGraph = function ({ x = 30, y = 30, w, h, type, text, font, fontSize = 20, color = 'red', url = null, rotate = 0, sourceId = null, selected = true}, canvas, factor) {
     if (type === 'text') {
         canvas.setFontSize(fontSize);
         const textWidth = canvas.measureText(text).width;
@@ -34,6 +34,7 @@ const dragGraph = function ({x = 30, y = 30, w, h, type, text, fontSize = 20, co
 
     this.fileUrl = url;
     this.text = text;
+    this.font = font;
     this.fontSize = fontSize;
     this.color = color;
     this.ctx = canvas;
@@ -56,6 +57,7 @@ dragGraph.prototype = {
         let textWidth = 0;
         let textHeight = 0;
         if (this.type === 'text') {
+            this.ctx.font = this.font;
             this.ctx.setFontSize(this.fontSize);
             this.ctx.setTextBaseline('middle');
             this.ctx.setTextAlign('center');

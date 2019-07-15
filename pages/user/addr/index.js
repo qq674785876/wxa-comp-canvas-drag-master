@@ -1,4 +1,7 @@
 // pages/user/addr/index.js
+let app = getApp();
+let user = wx.getStorageSync('user') || {};
+
 Page({
 
   /**
@@ -6,19 +9,42 @@ Page({
    */
   data: {
     showModalStatus: false,
-    addrArr: [{
-      name: '忘记了',
-      phone: 18870652563,
-      addr: '北京市东城区123'
-    },{
-      name: '哦哦哦',
-      phone: 110,
-      addr: '天津市123456'
-    }],
+    addrArr: [],
     drawer: {
       title: '地址信息',
     },
-    region: ['', '', '']
+    region: ['', '', ''],
+    addInfo: {
+      id: '',
+      name: '',
+      phone: '',
+      addr: ''
+    }
+  },
+  getAddrList: function(){
+    let _this = this;
+    wx.showLoading({
+      title: '加载中',
+    })
+    app.request({
+      url: '/addresslist',
+      data: {
+        pagesize: 1000,
+        pagenum: 0,
+        isuse: '',
+        userid: user.userid
+      },
+      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT  
+      success: function (res) {
+        wx.hideLoading()
+        let data = res.data;
+        if (data.error === 0) {
+          _this.setData({
+            addrArr: data.result.list
+          })
+        }
+      }
+    })
   },
   addAddr: function(){
     let _this = this;
@@ -26,8 +52,78 @@ Page({
       showModalStatus: true
     })
   },
+  editAddr: function(e){
+    let _this = this;
+    let item = e.currentTarget.dataset.item;
+    _this.setData({
+      showModalStatus: true,
+      'addInfo.id': item.Address_id,
+      'addInfo.name': item.Address_user_name,
+      'addInfo.phone': item.Address_user_phone,
+      region: [item.Province, item.City, item.Regoin],
+      'addInfo.addr': item.Detail_address
+    })
+  },
+  deleteAddr: function(e){
+    let item = e.currentTarget.dataset.item;
+  },
   saveAddr: function(){
-
+    let _this = this;
+    wx.showLoading({
+      title: '保存中',
+    })
+    let params = {
+      addressUserName: _this.data.addInfo.name,
+      addressUserPhone: _this.data.addInfo.phone,
+      province: _this.data.region[0],
+      city: _this.data.region[1],
+      regoin: _this.data.region[2],
+      detailAddress: _this.data.addInfo.addr,
+      userid: user.userid,
+      isDefault: 1
+    };
+    let url = '/adduseraddress';
+    if(_this.data.addInfo.id){
+      url = '/updateuseraddress';
+      params.addressid = _this.data.addInfo.id;
+      params.isUse = 1;
+    }
+    app.request({
+      url: url,
+      data: params,
+      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT  
+      success: function (res) {
+        wx.hideLoading()
+        let data = res.data;
+        if (data.error === 0) {
+          _this.setData({
+            showModalStatus: false
+          })
+          _this.getAddrList();
+        }else{
+          wx.showToast({
+            title: data.reason,
+            icon: 'none',
+            duration: 2000
+          })
+        }
+      }
+    })
+  },
+  inputName: function(e){
+    this.setData({
+      'addInfo.name': e.detail.value
+    })
+  },
+  inputPhone: function (e) {
+    this.setData({
+      'addInfo.phone': e.detail.value
+    })
+  },
+  inputAddr: function (e) {
+    this.setData({
+      'addInfo.addr': e.detail.value
+    })
   },
   bingRegionChange: function(e){
     this.setData({
@@ -47,6 +143,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '收货地址'//页面标题为路由参数
     })
+    this.getAddrList();
   },
 
   /**

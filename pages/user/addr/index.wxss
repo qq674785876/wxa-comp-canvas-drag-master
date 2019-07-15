@@ -2,6 +2,7 @@
 .addr-box{
   width: 100%;
   height: calc(100vh - 100rpx);
+  overflow: auto;
 }
 .addr-list{
   padding: 0 30rpx;
@@ -75,4 +76,18 @@
 }
 .picker .iconiconzhengli-{
   font-size: 30rpx;
+}
+
+
+.no-addr{
+  font-size: 30rpx;
+  color: #333;
+  text-align: center;
+  padding-top: 200rpx;
+}
+.no-addr image{
+  display: block;
+  width: 200rpx;
+  height: 200rpx;
+  margin: 30rpx auto;
 }

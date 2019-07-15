@@ -1,3 +1,4 @@
+
 //app.js
 App({
   onLaunch: function () {
@@ -21,6 +22,21 @@ App({
         }
       })
     }
+  },
+  request: function(option){
+    let _this = this;
+    wx.request({
+      url: _this.apiHost + option.url,
+      method: option.method,
+      data: option.data,
+      header: option.header || { 'content-type': 'application/x-www-form-urlencoded' },
+      success: function(res){
+        option.success(res);
+      },
+      error: function(){
+        option.error();
+      }
+    })
   },
   globalData: {
     userInfo: null

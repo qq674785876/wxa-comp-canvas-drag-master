@@ -4,33 +4,22 @@ const app = getApp()
 
 Page({
   data: {
-    menuArr: [{
-      name: '菜单1',
-      value: 1
-    },{
-      name: '菜单2',
-      value: 2
-    },{
-      name: '菜单3',
-      value: 3
-    },{
-      name: '菜单4',
-      value: 3
-    }],
     moduleArr: [{
+      name: 'T恤',
       bgColor: 'red',
-      path: '/pages/customized/index',
-      value: 0,
+      Product_id: 9,
       imgSrc: '/assets/images/test.jpg'
     },{
+      name: '无帽文化衫',
       bgColor: 'black', 
-      value: 1
+      Product_id: 10,
     },{
+      name: '带帽文化衫',
       bgColor: 'blue', 
-      value: 2
+      Product_id: 11,
     },{
+      name: '暂无',
       bgColor: 'yellow',
-      value: 3
     }],
     startPoint: {},//触摸开始
     activeNavIndex: 0,
@@ -45,10 +34,10 @@ Page({
   },
   tapModule: function(e){
     let item = e.currentTarget.dataset.item;
-    console.log(item);
-    if (item.path){
+    let Product_id = item.Product_id;
+    if (Product_id){
       wx.navigateTo({
-        url: item.path + '?type=' + item.value
+        url: '/pages/customized/index?type=' + Product_id
       })
     }
   },
@@ -89,7 +78,7 @@ Page({
       menuDeg: menuDeg,
       activeNavIndex: activeNavIndex
     })
-    console.log(activeNavIndex)
+    
   },
   jumpMyPage: function(){
     wx.navigateTo({

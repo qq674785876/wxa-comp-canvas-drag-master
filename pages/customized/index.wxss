@@ -1,9 +1,10 @@
 page{
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .preview-box{
   width: 100%;
   height: calc(100vh - 180rpx);
+  z-index: 0;
 }
 .preview-box image{
   position: absolute;
@@ -12,12 +13,14 @@ page{
   margin: 30% auto;
   transform: scale(1.6);
 }
+
 #canvas-drag{
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vw;
+  z-index: 1;
 }
 #canvas-drag canvas{
   margin:36% auto;
@@ -53,4 +56,76 @@ page{
 .btn-box .complete-btn{
   width: 100%;
   background-color: greenyellow;
+}
+.text-input-mc,.params-mc{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.3);
+  z-index: 1000;
+}
+.text-input-box{
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.input-box::after{
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/*字体列表*/
+.family-box view{
+  line-height: 80rpx;
+  padding-left: 30rpx;
+}
+.family-box view.active{
+  color: coral;
+}
+
+.params-container{
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 58rpx);
+  padding: 30rpx;
+  background: #fff;
+}
+.params-container .price{
+  line-height: 80rpx;
+}
+.params-box{
+
+}
+.params-list{
+  
+}
+.params-list .name{
+  color: #666;
+  font-size: 30rpx;
+}
+.params-list .params-son-box{
+  padding: 20rpx 0;
+}
+.params-son-list{
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 10rpx 30rpx;
+  border-radius: 10rpx;
+  margin-right: 10rpx;
+}
+.params-son-list.active{
+  background-color: coral;
+}
+.params-container .sure-btn{
+  float: right;
+  border-radius: 10rpx;
+  border: 1px solid coral;
+  padding: 10rpx 20rpx;
+  color: coral;
+  font-size: 36rpx;
 }

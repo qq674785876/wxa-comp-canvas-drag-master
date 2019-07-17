@@ -96,3 +96,28 @@
   color: #fff;
   font-size: 30rpx;
 }
+
+.no-addr{
+  padding: 20rpx 30rpx;
+  font-size: 30rpx;
+  color: #000;
+  background-color: #fff;
+  position: relative;
+  margin-bottom: 20rpx;
+}
+.no-addr .name{
+  width: 100%;
+  padding-right: 30rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  color: #333;
+}
+
+.no-addr .iconiconzhengli-{
+  position: absolute;
+  font-size: 60rpx;
+  top: 10rpx;
+  right: 20rpx;
+  color: #ccc;
+}

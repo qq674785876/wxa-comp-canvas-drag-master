@@ -9,7 +9,7 @@ Page({
         type: 0,
         Product_id: 0,
         isShowTextInput: false,
-        isShowParams: true,
+        isShowParams: false,
         activeFamilyIndex: 0,
         textInput: {
           bottom: 0,
@@ -89,7 +89,7 @@ Page({
         },
         method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT  
         success: function (res) {
-          wx.hideLoading()
+          wx.hideLoading();
           let data = res.data;
           if (data.error === 0) {
             let productParams = data.result.productParams;
@@ -97,7 +97,6 @@ Page({
             for (let i = 0; i < productParams.length; i++) {
               activeParamsIndexArr.push(productParams[i].params[0]);
             }
-            console.log(activeParamsIndexArr);
             _this.setData({
               paramsArr: productParams,
               activeParamsIndexArr: activeParamsIndexArr
@@ -124,7 +123,7 @@ Page({
     },
     onLoad: function(options){
       let _this  = this;
-      let Product_id = options.Product_id || '9';
+      let Product_id = options.Product_id || 9;
       let type = 0;
       if (Product_id == 9){
         type = 0;
@@ -153,17 +152,17 @@ Page({
       let familyArr = _this.data.familyArr;
       if (text){
         _this.onAddText(text, 'black', 'normal 400px ' + familyArr[activeFamilyIndex].type);
-        _this.setData({
-          isShowTextInput: false,
-          'previewCanvas.display': 'block'
-        })
       }else{
-        wx.showToast({
-          title: '请输入文字',
-          icon: 'none',
-          duration: 2000
-        })
+        // wx.showToast({
+        //   title: '请输入文字',
+        //   icon: 'none',
+        //   duration: 2000
+        // })
       }
+      _this.setData({
+        isShowTextInput: false,
+        'previewCanvas.display': 'block'
+      })
     },
     bindKeyInput: function (e) {
       this.setData({
@@ -178,7 +177,6 @@ Page({
       _this.setData({
         'previewCanvas.context': context
       })
-      console.log(demoImg);
       context.drawImage(demoImg.src, 0, 0, _this.data.previewCanvas.width, _this.data.previewCanvas.width / demoImg.width * demoImg.height);
       //绘制图片
       context.draw();
@@ -259,9 +257,15 @@ Page({
         })
     },
     onComplete: function(){
-      var _this = this;
+      let _this = this;
       _this.setData({
         isShowParams: true
+      })
+    },
+    hideMc: function(e){
+      let _this = this;
+      _this.setData({
+        isShowParams: false
       })
     },
     generateImg: function(){
@@ -270,19 +274,36 @@ Page({
         title: '图片生成中',
       })
       setTimeout(function(){
-        _this.onExportJSON();
-        wx.canvasToTempFilePath({
-          canvasId: 'downCanvas',
-          destWidth: wx.getSystemInfoSync().windowWidth * 2,
-          destHeight: wx.getSystemInfoSync().windowWidth * 2,
-          success: (res) => {
-            // _this.saveImage();
-            
-          },
-          fail: (e) => {
-            reject(e);
-          },
-        }, this);
+        _this.onExportJSON(function(imgArr){
+          wx.canvasToTempFilePath({
+            canvasId: 'downCanvas',
+            destWidth: wx.getSystemInfoSync().windowWidth * 2,
+            destHeight: wx.getSystemInfoSync().windowWidth * 2,
+            success: (res) => {
+              // _this.saveImage();
+              let activeParamsIndexArr = _this.data.activeParamsIndexArr;
+              let product_param_ids = '';
+              for (let i = 0; i < activeParamsIndexArr.length; i++) {
+                if (i > 0) product_param_ids += ',';
+                product_param_ids += activeParamsIndexArr[i].id;
+              }
+
+              wx.navigateTo({
+                url: '/pages/order/index/index?filePath=' +
+                  res.tempFilePath +
+                  '&product_id=' + _this.data.Product_id +
+                  '&product_param_ids=' + product_param_ids +
+                  '&design_text=' + JSON.stringify({
+                    previewImg: res.tempFilePath,
+                    designs: imgArr
+                  })
+              })
+            },
+            fail: (e) => {
+              reject(e);
+            },
+          }, this);
+        });
       }, 500)
     },
     saveImage: function(path){
@@ -420,10 +441,11 @@ Page({
     /**
      * 导出当前画布为模板
      */
-    onExportJSON(){
+    onExportJSON(fct){
+      let _this = this;
         CanvasDrag.exportJson()
           .then((imgArr) => {
-            console.log(JSON.stringify(imgArr));
+            fct(imgArr);
         })
           .catch((e) => {
               console.error(e);

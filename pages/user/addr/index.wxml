@@ -2,7 +2,7 @@
   <view class="addr-box">
     <view class="addr-list" wx:for="{{addrArr}}">
       <text class="iconfont iconxuanzhong-copy"></text>
-      <view class="info-box">
+      <view class="info-box" bindtap='selectAddr' data-item="{{item}}">
         <text class="name">{{item.Address_user_name}}</text>
         <text class="phone">{{item.Address_user_phone}}</text>
         <text class="addr">{{item.Province + item.City + item.Regoin + item.Detail_address}}</text>
@@ -12,7 +12,7 @@
         <text bindtap="deleteAddr" data-item="{{item}}" class="iconfont iconmenu_reject2Submitor delete">删除</text>
       </view>
     </view>
-    <view class="no-addr" wx:if="{{addrArr.length === 0}}">
+    <view class="no-addr" wx:if="{{!addrArr}}">
       <image mode="aspectFit" src="/assets/images/noOrder.png"></image>
       无地址，请新增!
     </view>

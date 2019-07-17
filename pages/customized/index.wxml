@@ -1,7 +1,7 @@
 <view class="container">
   <view class="preview-box" style="display: {{previewCanvas.display}};">
     <!-- <image bindload="imageLoad" mode="aspectFit" src="{{demoImg.src}}"></image> -->
-    <canvas canvas-id="previewCanvas" style=";height: {{previewCanvas.height}}px;width: {{previewCanvas.width}}px;"></canvas>
+    <canvas canvas-id="previewCanvas" style="height: {{previewCanvas.height}}px;width: {{previewCanvas.width}}px;"></canvas>
     <canvas-drag id="canvas-drag" graph="{{graph}}" width="{{demoImgArr[type].dragWidth}}" height="{{demoImgArr[type].dragHeight}}" margin="{{demoImgArr[type].margin}}"></canvas-drag>
   </view>
   <view class="btn-box">
@@ -9,7 +9,7 @@
     <text bindtap='onAddImage'>图片</text>
     <text class="complete-btn" bindtap='onComplete'>完成设计</text>
   </view>
-  <view class="down-canvas">
+  <view class="down-canvas" style="display: {{previewCanvas.display}};">
     <canvas canvas-id="downCanvas" style="height: {{downCanvas.height}}px;width:{{downCanvas.width}}px;"></canvas>
   </view>
   <view class="text-input-mc" wx:if="{{isShowTextInput}}">
@@ -29,25 +29,24 @@
       </view>
     </view>
   </view>
-  <view class="params-mc" wx:if="isShowParams">
-    <view class="params-container">
-      <view class="price">￥{{price}}</view>
-      <view class="params-box">
-        <view class="params-list" wx:for="{{paramsArr}}" wx:for-index="pindex" wx:for-item="productParams">
-          <view class="name">{{productParams.name}}</view>
-          <view class="params-son-box">
-            <view 
-              wx:for="{{productParams.params}}" 
-              wx:for-index="sonIndex"
-              data-item="{{item}}" 
-              data-pIndex="{{pindex}}"
-              data-index="{{sonIndex}}" 
-              class="params-son-list {{ activeParamsIndexArr[pindex].id === item.id ? 'active' : ''}}" 
-              bindtap='activeParamsSon'>{{item.name}}</view>
-          </view>
+  <view class="params-mc" wx:if="{{isShowParams}}" bindtap='hideMc'></view>
+  <view class="params-container" wx:if="{{isShowParams}}">
+    <view class="price">￥{{price}}</view>
+    <view class="params-box">
+      <view class="params-list" wx:for="{{paramsArr}}" wx:for-index="pindex" wx:for-item="productParams">
+        <view class="name">{{productParams.name}}</view>
+        <view class="params-son-box">
+          <view 
+            wx:for="{{productParams.params}}" 
+            wx:for-index="sonIndex"
+            data-item="{{item}}" 
+            data-pIndex="{{pindex}}"
+            data-index="{{sonIndex}}" 
+            class="params-son-list {{ activeParamsIndexArr[pindex].id === item.id ? 'active' : ''}}" 
+            bindtap='activeParamsSon'>{{item.name}}</view>
         </view>
       </view>
-      <view class="sure-btn" bindtap='creatOrder'>确定</view>
     </view>
+    <view class="sure-btn" bindtap='creatOrder'>确定</view>
   </view>
 </view>

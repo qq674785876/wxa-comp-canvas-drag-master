@@ -94,6 +94,7 @@ page{
   width: calc(100% - 58rpx);
   padding: 30rpx;
   background: #fff;
+  z-index: 9999;
 }
 .params-container .price{
   line-height: 80rpx;

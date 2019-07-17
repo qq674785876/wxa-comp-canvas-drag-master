@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    type: '',
     showModalStatus: false,
     addrArr: [],
     drawer: {
@@ -19,6 +20,23 @@ Page({
       name: '',
       phone: '',
       addr: ''
+    }
+  },
+  selectAddr: function(e){
+    let _this = this;
+    let type = _this.data.type;
+    let item = e.currentTarget.dataset.item;
+    console.log(type);
+
+    if (type === 'select'){
+      let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
+      let prevPage = pages[pages.length - 2];
+      //prevPage 是获取上一个页面的js里面的pages的所有信息。 -2 是上一个页面，-3是上上个页面以此类推。
+      console.log(item);
+      prevPage.setData({
+        addrInfo: item
+      });
+      wx.navigateBack()
     }
   },
   getAddrList: function(){
@@ -142,6 +160,9 @@ Page({
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '收货地址'//页面标题为路由参数
+    })
+    this.setData({
+      type: options.type
     })
     this.getAddrList();
   },

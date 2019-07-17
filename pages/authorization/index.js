@@ -19,7 +19,7 @@ Page({
     wx.showLoading({
       title: '授权登录中',
     })
-    if (!user.openid){
+    if (true) { // || !user.openid
       wx.login({
         success: function(res){
           if(res.code){
@@ -28,8 +28,8 @@ Page({
                 wx.setStorageSync('userInfo', res.userInfo);
               }
             })
-            wx.request({
-              url: app.apiHost + '/code2Session',
+            app.request({
+              url: '/code2Session',
               data: {
                 js_code: res.code
               },
@@ -41,7 +41,18 @@ Page({
                 if(data.error === 0){
                   wx.setStorageSync('user', data.result);
                   _this.jumpIndex();
+                }else{
+                  wx.showToast({
+                    title: '授权登录失败',
+                    icon: 'none'
+                  })
                 }
+              },
+              fail: function(res){
+                wx.showToast({
+                  title: '授权登录失败',
+                  icon: 'none'
+                })
               }
             })
           }

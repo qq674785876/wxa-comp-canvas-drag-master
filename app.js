@@ -33,8 +33,8 @@ App({
       success: function(res){
         option.success(res);
       },
-      error: function(){
-        option.error();
+      fail: function(){
+        option.fail();
       }
     })
   },

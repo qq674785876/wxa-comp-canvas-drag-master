@@ -1,10 +1,10 @@
 {
   "pages": [
-    "pages/user/addr/index",
-    "pages/order/index/index",
-    "pages/index/index",
-    "pages/customized/index",
     "pages/authorization/index",
+    "pages/customized/index",
+    "pages/order/index/index",
+    "pages/user/addr/index",
+    "pages/index/index",
     "pages/user/order/index",
     "pages/user/index/index",
     "pages/demo/index"

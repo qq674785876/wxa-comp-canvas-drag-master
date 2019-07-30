@@ -42,6 +42,7 @@ page {
   font-size: 30rpx;
   color: #fff;
   border: 1rpx solid darkkhaki;
+  overflow: hidden;
 }
 .menu-list .menu-list-cont{
   height: 100%;

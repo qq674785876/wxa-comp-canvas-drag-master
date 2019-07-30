@@ -6,20 +6,22 @@ Page({
   data: {
     moduleArr: [{
       name: 'T恤',
-      bgColor: 'red',
+      bgColor: '#fff',
       Product_id: 9,
-      imgSrc: '/assets/images/test.jpg'
+      imgSrc: '/assets/images/blackTshirt.jpg'
     },{
       name: '无帽文化衫',
-      bgColor: 'black', 
-      Product_id: 10,
+        bgColor: '#fff', 
+        Product_id: 10,
+        imgSrc: '/assets/images/blackNoCap.jpg'
     },{
       name: '带帽文化衫',
-      bgColor: 'blue', 
-      Product_id: 11,
+        bgColor: '#fff', 
+        Product_id: 11,
+        imgSrc: '/assets/images/blackHoodedCap.jpg'
     },{
       name: '暂无',
-      bgColor: 'yellow',
+        bgColor: '#fff',
     }],
     startPoint: {},//触摸开始
     activeNavIndex: 0,

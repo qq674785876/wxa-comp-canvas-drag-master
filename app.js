@@ -41,5 +41,5 @@ App({
   globalData: {
     userInfo: null
   },
-  apiHost: 'http://106.13.66.152:8686'
+  apiHost: 'http://106.52.42.163:8686'
 })

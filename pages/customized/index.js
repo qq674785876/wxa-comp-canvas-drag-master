@@ -91,7 +91,7 @@ Page({
         success: function (res) {
           wx.hideLoading();
           let data = res.data;
-          if (data.error === 0) {
+          if (data.error === 0 && data.result.productParams) {
             let productParams = data.result.productParams;
             let activeParamsIndexArr = [];
             for (let i = 0; i < productParams.length; i++) {

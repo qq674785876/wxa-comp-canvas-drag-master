@@ -39,7 +39,7 @@ Page({
     let Product_id = item.Product_id;
     if (Product_id){
       wx.navigateTo({
-        url: '/pages/customized/index?type=' + Product_id
+        url: '/pages/customized/index?Product_id=' + Product_id
       })
     }
   },
